@@ -1,0 +1,52 @@
+Put Desc here!
+
+【18:41 2014-9-29】单独导入一个android项目编译出错
+//================================================
+这是因为缺少Cocos2d-x Android JNI桥接库（bridge library）。解决方法：导入另一个Android项目，项目位置为“C:\cocos2d-x-2.2.0\cocos2dx\platform\android”。导入项目之后，错误即会消失
+
+【12:58 2014-9-24】移植卡牌塔防说明
+//================================================
+Q,在mygame项目中MyGame.java文件中的package com.MyCompany.AwesomeGame;是什么时候指定的?
+A,是由create_project.py指定的参数
+
+Q,MyGame.java下的System.loadLibrary("cocos2dcpp");名字是怎么指定的？
+A,表示libcocos2dcpp.so java动态库，这个与jni\Android.mk下的 
+	LOCAL_MODULE_FILENAME := libcocos2dcpp 一致
+	
+*****改了代码先在cygwin下调用./build_native.sh 编译，完后在eclipse下执行
+	(暂时没搞懂为什么eclipse不调用build_native.sh编译，之前都可以的。。)
+
+【15:49 2014-9-22】安卓环境
+//================================================
+参考链接：
+http://cn.cocos2d-x.org/article/index?type=cocos2d-x&url=/doc/cocos-docs-master/manual/framework/native/v2/getting-started/setting-up-development-environments/windows-7-environment-setup/how-to-set-up-the-android-cocos2d-x-development-environment-on-windows7/zh.md
+http://cn.cocos2d-x.org/article/index?type=cocos2d-x&url=/doc/cocos-docs-master/manual/framework/native/v3/getting-started/setting-up-development-environments-on-windows7-with-eclipse/zh.md
+//需要软件
+python jdk adt(eclipse 、androidsdk) NDK、cygwin、cocos2dx
+
+D:\Python27 (2.7.6)
+D:\Program Files\Java\jdk1.7.0_40
+E:\AppDev\adt-bundle-windows-x86-20140702\eclipse
+E:\AppDev\adt-bundle-windows-x86-20140702\sdk
+E:\AppDev\android-ndk32-r10b-windows-x86
+D:\cygwin (4.1.10)
+E:\AppDev\cocos2d-x-2.2.4
+
+说明：
+ADT //eclipse插件
+NDK //eclipse C++编译
+
+*****日，用 "create_project.py -project MyGame -package com.MyCompany.AwesomeGame -language cpp"
+创建项目老出错，把python从3.3换回到2.7版本就OK了(2.7.6)
+
+*****编译时找不到bash...
+cygwin没加入到系统环境变量里,加入环境后重启电脑后才没报错...
+
+环境变量说明：
+ANDROID_SDK: E:\AppDev\adt-bundle-windows-x86-20140702\sdk\platforms;E:\AppDev\adt-bundle-windows-x86-20140702\sdk\platform-tools;E:\AppDev\adt-bundle-windows-x86-20140702\sdk\tools
+classpath: %JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar;
+CYGWIN: D:\cygwin
+java_home: D:\Program Files\Java\jdk1.7.0_40
+NDK_ROOT: E:\AppDev\android-ndk32-r10b-windows-x86
+Path: D:\cygwin\bin;D:\cygwin;%NDK_ROOT%;%ANDROID_SDK%;D:\Python27;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;D:\Microsoft DirectX SDK (March 2008)\Utilities\Bin\x86;C:\Program Files\NVIDIA Corporation\PhysX\Common;%SystemRoot%\system32;%SystemRoot%;%SystemRoot%\System32\Wbem;C:\Program Files\Kaspersky Lab\Kaspersky Anti-Virus 6.0 for Windows Workstations MP4\;C:\Program Files\Microsoft SQL Server\90\Tools\binn\;D:\Program Files\Perforce;C:\Program Files\Common Files\Ulead Systems\MPEG;d:\Program Files\IDM Computer Solutions\UltraEdit-32;C:\Program Files\CMake 2.8\bin;c:\Program Files\Microsoft SQL Server\100\Tools\Binn\;c:\Program Files\Microsoft SQL Server\100\DTS\Binn\;D:\Program Files\TortoiseHg\
+
