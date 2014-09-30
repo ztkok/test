@@ -1,5 +1,54 @@
 Put Desc here!
 
+
+【14:57 2014-9-30】Server
+int WorldSocket::handle_output_queue (GuardType& g)
+	//循环从命令队列里取数据包组合起来，直到取完或发送区满
+	while(PacketBufferQueue::BuffPkt* pb = m_CmdSendQueue.PeekReadPacket())
+	。。。
+peer().send...
+
+
+WorldSocket::SendPacket (const WorldPacket& pct)
+	QueueCmdPacket(const WorldPacket & pkt)
+		m_CmdSendQueue.WritePacket(pkt);
+
+		
+【14:04 2014-9-30】LZCS消息发送
+//================================================
+SocketBuffer *sendBuffer = SocketBuffer::defaultSocketBuffer();
+sendBuffer->writeShort(LoginDataCenter::USER_SOCKET_APPLICATION_ACCOUNT);
+LoginDataCenter::sharedLoginDataCenter()->send(sendBuffer,this);
+	UserSocketManager::sharedUserSocketManager()->send(sendBuffer);
+		_userSendQueue.Push(data);
+
+			
+【18:41 2014-9-29】tsdemo消息结构
+//================================================
+    char HEAD0;
+    char HEAD1;
+    char HEAD2;
+    char HEAD3;
+    char ProtoVersion;
+    
+    byte serverVersion[4];
+    byte length[4];
+    byte commandId[4];
+    /**
+      * 消息的数据
+      */
+    char* data;
+	
+发送：
+	Json::FastWriter  writer;
+	Json::Value person;
+    person["username"]=userName;
+    person["password"]=password;
+    std::string  json_file=writer.write(person);//192.168.1.210   114.252.70.61  183.60.243.195
+    CCLog("%s",json_file.c_str());
+    SocketManager::getInstance()->sendMessage(json_file.c_str(), 101);	
+	
+
 【18:41 2014-9-29】单独导入一个android项目编译出错
 //================================================
 这是因为缺少Cocos2d-x Android JNI桥接库（bridge library）。解决方法：导入另一个Android项目，项目位置为“C:\cocos2d-x-2.2.0\cocos2dx\platform\android”。导入项目之后，错误即会消失
